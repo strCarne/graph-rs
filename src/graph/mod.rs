@@ -31,3 +31,13 @@ where
         }
     }
 }
+
+impl<Key, Value, Type> Default for Graph<Key, Value, Type>
+where
+    Key: Hash + Eq + Clone,
+    Type: GraphType,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
