@@ -11,3 +11,23 @@ where
 
     _type: PhantomData<Type>,
 }
+
+impl<Key, Value, Type> Graph<Key, Value, Type>
+where
+    Key: Hash + Eq + Clone,
+    Type: GraphType,
+{
+    pub fn new() -> Self {
+        Self {
+            vertices: HashMap::new(),
+            _type: PhantomData,
+        }
+    }
+
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self {
+            vertices: HashMap::with_capacity(capacity),
+            _type: PhantomData,
+        }
+    }
+}
