@@ -28,9 +28,9 @@ where
             let vertex = self.graph.get_vertex(key).unwrap();
 
             if self.visited.contains(&vertex.key) {
-                self.visited.insert(&vertex.key);
                 continue;
             }
+            self.visited.insert(&vertex.key);
 
             for edge in vertex.adj.iter() {
                 self.stack.push_back(&edge.to);
