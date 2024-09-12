@@ -2,10 +2,13 @@ mod directed;
 mod general;
 mod undirected;
 
-use crate::{marker::GraphType, vertex::Vertex};
+use crate::{
+    marker::{Directed, GraphType},
+    vertex::Vertex,
+};
 use std::{collections::HashMap, hash::Hash, marker::PhantomData};
 
-pub struct Graph<Key, Value, Type>
+pub struct Graph<Key, Value, Type = Directed>
 where
     Key: Hash + Eq + Clone,
     Type: GraphType,
