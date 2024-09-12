@@ -45,4 +45,21 @@ where
         &self.adj
     }
 
+    pub fn get_edge(&self, to: &Key) -> Option<&Edge<Key>> {
+        for edge in &self.adj {
+            if edge.to == *to {
+                return Some(edge);
+            }
+        }
+        None
+    }
+
+    pub fn remove_edge(&mut self, to: &Key) -> Option<Edge<Key>> {
+        for (i, edge) in self.adj.iter().enumerate() {
+            if edge.to == *to {
+                return Some(self.adj.swap_remove(i));
+            }
+        }
+        None
+    }
 }
