@@ -1,4 +1,5 @@
 mod general;
+mod undirected;
 
 use crate::{marker::GraphType, vertex::Vertex};
 use std::{collections::HashMap, hash::Hash, marker::PhantomData};
@@ -8,7 +9,7 @@ where
     Key: Hash + Eq + Clone,
     Type: GraphType,
 {
-    pub vertices: HashMap<Key, Vertex<Key, Value>>,
+    vertices: HashMap<Key, Vertex<Key, Value>>,
 
     _type: PhantomData<Type>,
 }
