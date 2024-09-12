@@ -24,12 +24,12 @@ where
             let key = self.stack.pop().unwrap();
             let vertex = self.graph.get_vertex(key).unwrap();
 
-            if self.visited.contains(&vertex.key) {
+            if self.visited.contains(&vertex.key()) {
                 continue;
             }
-            self.visited.insert(&vertex.key);
+            self.visited.insert(&vertex.key());
 
-            for edge in vertex.adj.iter() {
+            for edge in vertex.adjancency_list() {
                 self.stack.push(&edge.to);
             }
 

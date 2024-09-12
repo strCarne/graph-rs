@@ -50,7 +50,7 @@ where
     }
 
     pub fn insert_vertex(&mut self, vertex: Vertex<Key, Value>) -> Option<Vertex<Key, Value>> {
-        self.vertices.insert(vertex.key.clone(), vertex)
+        self.vertices.insert(vertex.key().clone(), vertex)
     }
 
     pub fn get_vertex(&self, key: &Key) -> Option<&Vertex<Key, Value>> {

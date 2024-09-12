@@ -4,9 +4,9 @@ pub struct Vertex<Key, Value>
 where
     Key: Eq,
 {
-    pub key: Key,
+    key: Key,
     pub value: Value,
-    pub adj: Vec<Edge<Key>>,
+    adj: Vec<Edge<Key>>,
 }
 
 impl<Key, Value> Vertex<Key, Value>
@@ -36,4 +36,13 @@ where
 
         result
     }
+
+    pub fn key(&self) ->  &Key {
+        &self.key
+    }
+
+    pub fn adjancency_list(&self) -> &Vec<Edge<Key>> {
+        &self.adj
+    }
+
 }
