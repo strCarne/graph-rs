@@ -26,8 +26,8 @@ where
         self.insert_edge(from, to, 0)
     }
 
-    pub fn remove_edge(&mut self, from: &Key, to: &Key) -> Option<&Edge<Key>> {
-        self.get_vertex(to)?.get_edge(from);
-        self.get_vertex(from)?.get_edge(to)
+    pub fn remove_edge(&mut self, from: &Key, to: &Key) -> Option<Edge<Key>> {
+        self.get_vertex_mut(to)?.remove_edge(from);
+        self.get_vertex_mut(from)?.remove_edge(to)
     }
 }
