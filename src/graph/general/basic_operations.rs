@@ -1,6 +1,6 @@
 use std::{collections::HashMap, hash::Hash, marker::PhantomData};
 
-use crate::{graph::Graph, marker::GraphType, vertex::Vertex};
+use crate::{edge::Edge, graph::Graph, marker::GraphType, vertex::Vertex};
 
 impl<Key, Value, Type> Graph<Key, Value, Type>
 where
@@ -63,6 +63,10 @@ where
 
     pub fn remove_vertex(&mut self, key: &Key) -> Option<Vertex<Key, Value>> {
         self.vertices.remove(key)
+    }
+
+    pub fn get_edge(&mut self, from: &Key, to: &Key) -> Option<&Edge<Key>> {
+        self.get_vertex(from)?.get_edge(to)
     }
 }
 
