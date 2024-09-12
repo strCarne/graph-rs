@@ -13,7 +13,7 @@ where
     Key: Hash + Eq + Clone,
     Type: GraphType,
 {
-    pub fn bfs<'a>(&'a self, from: &'a Key) -> impl Iterator + 'a {
+    pub fn bfs<'a>(&'a self, from: &'a Key) -> BfsIterator<'a, Key, Value, Type> {
         BfsIterator {
             graph: self,
             stack: vec![from].into(),
@@ -21,7 +21,7 @@ where
         }
     }
 
-    pub fn bfs_mut<'a>(&'a mut self, from: &'a Key) -> impl Iterator + 'a {
+    pub fn bfs_mut<'a>(&'a mut self, from: &'a Key) -> BfsIteratorMut<'a, Key, Value, Type> {
         BfsIteratorMut {
             graph: self,
             stack: vec![from].into(),

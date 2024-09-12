@@ -13,7 +13,7 @@ where
     Key: Hash + Eq + Clone,
     Type: GraphType,
 {
-    pub fn dfs<'a>(&'a self, from: &'a Key) -> impl Iterator + 'a {
+    pub fn dfs<'a>(&'a self, from: &'a Key) -> DfsIterator<'a, Key, Value, Type> {
         DfsIterator {
             graph: self,
             stack: vec![from],
@@ -21,7 +21,7 @@ where
         }
     }
 
-    pub fn dfs_mut<'a>(&'a mut self, from: &'a Key) -> impl Iterator + 'a {
+    pub fn dfs_mut<'a>(&'a mut self, from: &'a Key) -> DfsIteratorMut<'a, Key, Value, Type> {
         DfsIteratorMut {
             graph: self,
             stack: vec![from],
