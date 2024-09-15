@@ -66,3 +66,54 @@ where
             .remove_edge(to))
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+    use pretty_assertions::assert_eq;
+
+    #[test]
+    fn insert_edge_test() {
+        let mut graph: Graph<i32, i32, Undirected> = Graph::new();
+        graph.insert(1, 1);
+        graph.insert(2, 2);
+        graph.insert(3, 3);
+
+        assert_eq!(graph.insert_edge_unweighted(1, 2), Ok(None));
+        assert_eq!(graph.insert_edge_unweighted(1, 3), Ok(None));
+        assert_eq!(graph.insert_edge_unweighted(1, 4), Err(()));
+        assert_eq!(graph.insert_edge_unweighted(2, 3), Ok(None));
+        assert_eq!(
+            graph.insert_edge_unweighted(1, 3),
+            Ok(Some(Edge::new(1, 3, 0)))
+        );
+    }
+
+    #[test]
+    fn remove_edge_test() {
+        let mut graph: Graph<i32, i32, Undirected> = Graph::new();
+        graph.insert(1, 1);
+        graph.insert(2, 2);
+        graph.insert(3, 3);
+        graph.insert(4, 4);
+
+        graph
+            .insert_edge_unweighted(1, 2)
+            .expect("both vertices must exist");
+        graph
+            .insert_edge_unweighted(1, 3)
+            .expect("both vertices must exist");
+        graph
+            .insert_edge_unweighted(1, 4)
+            .expect("both vertices must exist");
+        graph
+            .insert_edge_unweighted(2, 3)
+            .expect("both vertices must exist");
+
+        assert_eq!(graph.remove_edge(&2, &4), Ok(None));
+        assert_eq!(graph.remove_edge(&1, &3), Ok(Some(Edge::new(1, 3, 0))));
+        assert_eq!(graph.remove_edge(&1, &5), Err(()));
+        assert_eq!(graph.remove_edge(&2, &3), Ok(Some(Edge::new(2, 3, 0))));
+    }
+}

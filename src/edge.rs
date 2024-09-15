@@ -1,4 +1,5 @@
 /// Edge is a directed connection between two vertices in a graph that has a weight.
+#[derive(Debug)]
 pub struct Edge<Key>
 where
     Key: Eq,
