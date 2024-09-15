@@ -239,3 +239,43 @@ where
         buffer.into()
     }
 }
+
+impl<Key, Value, Type> ToString for Graph<Key, Value, Type>
+where
+    Key: Hash + Eq + Clone + ToString,
+    Value: ToString,
+    Type: GraphType,
+{
+    fn to_string(&self) -> String {
+        if self.is_empty() {
+            return String::from("[]");
+        }
+
+        let mut main_buf = String::new();
+        main_buf.push('[');
+
+        for vertex in self.vertecies() {
+            let mut sub_buf = String::new();
+            for edge in vertex.adjancency_list() {
+                sub_buf += &format!("{}, ", edge.to.to_string());
+            }
+            let sub_buf = sub_buf.trim_end_matches(", ");
+
+            main_buf += &format!(
+                r#"
+  {{
+    "key": {},
+    "value": "{}",
+    "adjacent_vertecies_keys": [{}] ,
+  }},"#,
+                vertex.key().to_string(),
+                vertex.value.to_string(),
+                sub_buf
+            );
+        }
+
+        let main_buf = main_buf.trim_end_matches(',');
+
+        String::from(main_buf) + "\n]"
+    }
+}
