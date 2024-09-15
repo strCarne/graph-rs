@@ -37,7 +37,7 @@ where
         result
     }
 
-    pub fn key(&self) ->  &Key {
+    pub fn key(&self) -> &Key {
         &self.key
     }
 
