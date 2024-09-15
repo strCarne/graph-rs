@@ -171,7 +171,10 @@ where
     }
 
     /// Same as Graph::dfs, but returns a mutable reference.
-    pub fn dfs_mut<'a>(&'a mut self, from: &'a Key) -> impl Iterator<Item = &'a mut Vertex<Key, Value>> + 'a {
+    pub fn dfs_mut<'a>(
+        &'a mut self,
+        from: &'a Key,
+    ) -> impl Iterator<Item = &'a mut Vertex<Key, Value>> + 'a {
         DfsIteratorMut {
             graph: self,
             stack: vec![from],
@@ -190,7 +193,10 @@ where
     }
 
     /// Same as Graph::bfs, but returns a mutable reference.
-    pub fn bfs_mut<'a>(&'a mut self, from: &'a Key) -> impl Iterator<Item = &'a mut Vertex<Key, Value>> + 'a  {
+    pub fn bfs_mut<'a>(
+        &'a mut self,
+        from: &'a Key,
+    ) -> impl Iterator<Item = &'a mut Vertex<Key, Value>> + 'a {
         BfsIteratorMut {
             graph: self,
             queue: vec![from].into(),
