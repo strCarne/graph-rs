@@ -327,3 +327,6 @@ where
         String::from(main_buf) + "\n]"
     }
 }
+
+#[cfg(test)]
+mod tests;
