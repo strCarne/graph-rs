@@ -3,4 +3,9 @@ name = "graph_rs"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "graph-rs"
+path = "src/bin/main.rs"
+
 [dependencies]
+clap = "4.5.17"
