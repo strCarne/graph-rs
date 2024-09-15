@@ -40,3 +40,57 @@ where
         self.from != other.from || self.to != other.to
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn edge_eq_test() {
+        assert!(
+            Edge::new(1, 2, 69) == Edge::new(1, 2, 69),
+            "edges must be absolutely equal in this case"
+        );
+        assert!(
+            Edge::new(1, 2, 69) == Edge::new(1, 2, 96),
+            "edge weight does not affect equality"
+        );
+        assert!(
+            !(Edge::new(1, 2, 69) == Edge::new(3, 4, 69)),
+            "edge must not be equal because its direction is not the same"
+        );
+        assert!(
+            !(Edge::new(1, 2, 69) == Edge::new(3, 2, 96)),
+            "edge must not be equal because its source is not the same"
+        );
+        assert!(
+            !(Edge::new(1, 2, 69) == Edge::new(1, 3, 96)),
+            "edge must not be equal because its destination is not the same"
+        );
+    }
+
+    #[test]
+    fn edge_ne_test() {
+        assert!(
+            !(Edge::new(1, 2, 69) != Edge::new(1, 2, 69)),
+            "edges must be absolutely equal in this case"
+        );
+        assert!(
+            !(Edge::new(1, 2, 69) != Edge::new(1, 2, 96)),
+            "edge weight does not affect equality"
+        );
+        assert!(
+            Edge::new(1, 2, 69) != Edge::new(3, 4, 69),
+            "edge must not be equal because its direction is not the same"
+        );
+        assert!(
+            Edge::new(1, 2, 69) != Edge::new(3, 2, 96),
+            "edge must not be equal because its source is not the same"
+        );
+        assert!(
+            Edge::new(1, 2, 69) != Edge::new(1, 3, 96),
+            "edge must not be equal because its destination is not the same"
+        );
+    }
+}
