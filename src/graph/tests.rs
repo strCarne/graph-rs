@@ -120,3 +120,419 @@ fn get_mut_test() {
 fn remove_test() {
     unimplemented!()
 }
+
+#[test]
+fn dfs_empty_test() {
+    let graph: Graph<i32, i32> = Graph::new();
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs(&0) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed.len(), 0);
+}
+
+#[test]
+fn dfs_simple_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    graph.insert(1, 1);
+    graph.insert(2, 2);
+    graph.insert(3, 3);
+    graph.insert(4, 4);
+
+    graph
+        .insert_edge_unweighted(1, 2)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(1, 3)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(3, 4)
+        .expect("must contain both vertices");
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 3, 4, 2]);
+}
+
+#[test]
+fn dfs_hard_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let vertecies = vec![
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+    ]
+    .into_iter();
+
+    for (key, value) in vertecies {
+        graph.insert(key, value);
+    }
+
+    let edges = vec![
+        (1, 2),
+        (2, 3),
+        (2, 10),
+        (3, 4),
+        (3, 11),
+        (4, 5),
+        (5, 6),
+        (5, 6),
+        (6, 7),
+        (7, 5),
+        (8, 9),
+        (9, 1),
+        (10, 6),
+        (12, 4),
+        (12, 14),
+        (13, 12),
+        (15, 16),
+        (16, 14),
+    ]
+    .into_iter();
+
+    for (from, to) in edges {
+        graph
+            .insert_edge_unweighted(from, to)
+            .expect("must contain both vertices");
+    }
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 10, 6, 7, 5, 3, 11, 4,]);
+}
+
+#[test]
+fn dfs_mut_empty_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs_mut(&0) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed.len(), 0);
+}
+
+#[test]
+fn dfs_mut_simple_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    graph.insert(1, 1);
+    graph.insert(2, 2);
+    graph.insert(3, 3);
+    graph.insert(4, 4);
+
+    graph
+        .insert_edge_unweighted(1, 2)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(1, 3)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(3, 4)
+        .expect("must contain both vertices");
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs_mut(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 3, 4, 2]);
+}
+
+#[test]
+fn dfs_mut_hard_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let vertecies = vec![
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+    ]
+    .into_iter();
+
+    for (key, value) in vertecies {
+        graph.insert(key, value);
+    }
+
+    let edges = vec![
+        (1, 2),
+        (2, 3),
+        (2, 10),
+        (3, 4),
+        (3, 11),
+        (4, 5),
+        (5, 6),
+        (5, 6),
+        (6, 7),
+        (7, 5),
+        (8, 9),
+        (9, 1),
+        (10, 6),
+        (12, 4),
+        (12, 14),
+        (13, 12),
+        (15, 16),
+        (16, 14),
+    ]
+    .into_iter();
+
+    for (from, to) in edges {
+        graph
+            .insert_edge_unweighted(from, to)
+            .expect("must contain both vertices");
+    }
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.dfs_mut(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 10, 6, 7, 5, 3, 11, 4,]);
+}
+
+#[test]
+fn bfs_empty_test() {
+    let graph: Graph<i32, i32> = Graph::new();
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs(&0) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed.len(), 0);
+}
+
+#[test]
+fn bfs_simple_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    graph.insert(1, 1);
+    graph.insert(2, 2);
+    graph.insert(3, 3);
+    graph.insert(4, 4);
+
+    graph
+        .insert_edge_unweighted(1, 2)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(1, 3)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(3, 4)
+        .expect("must contain both vertices");
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 3, 4]);
+}
+
+#[test]
+fn bfs_hard_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let vertecies = vec![
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+    ]
+    .into_iter();
+
+    for (key, value) in vertecies {
+        graph.insert(key, value);
+    }
+
+    let edges = vec![
+        (1, 2),
+        (2, 3),
+        (2, 10),
+        (3, 4),
+        (3, 11),
+        (4, 5),
+        (5, 6),
+        (5, 6),
+        (6, 7),
+        (7, 5),
+        (8, 9),
+        (9, 1),
+        (10, 6),
+        (12, 4),
+        (12, 14),
+        (13, 12),
+        (15, 16),
+        (16, 14),
+    ]
+    .into_iter();
+
+    for (from, to) in edges {
+        graph
+            .insert_edge_unweighted(from, to)
+            .expect("must contain both vertices");
+    }
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 3, 10, 4, 11, 6, 5, 7,]);
+}
+
+#[test]
+fn bfs_mut_empty_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs_mut(&0) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed.len(), 0);
+}
+
+#[test]
+fn bfs_mut_simple_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    graph.insert(1, 1);
+    graph.insert(2, 2);
+    graph.insert(3, 3);
+    graph.insert(4, 4);
+
+    graph
+        .insert_edge_unweighted(1, 2)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(1, 3)
+        .expect("must contain both vertices");
+    graph
+        .insert_edge_unweighted(3, 4)
+        .expect("must contain both vertices");
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs_mut(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 3, 4]);
+}
+
+#[test]
+fn bfs_mut_hard_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+
+    let vertecies = vec![
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+    ]
+    .into_iter();
+
+    for (key, value) in vertecies {
+        graph.insert(key, value);
+    }
+
+    let edges = vec![
+        (1, 2),
+        (2, 3),
+        (2, 10),
+        (3, 4),
+        (3, 11),
+        (4, 5),
+        (5, 6),
+        (5, 6),
+        (6, 7),
+        (7, 5),
+        (8, 9),
+        (9, 1),
+        (10, 6),
+        (12, 4),
+        (12, 14),
+        (13, 12),
+        (15, 16),
+        (16, 14),
+    ]
+    .into_iter();
+
+    for (from, to) in edges {
+        graph
+            .insert_edge_unweighted(from, to)
+            .expect("must contain both vertices");
+    }
+
+    let mut traversed: Vec<i32> = vec![];
+    for vertex in graph.bfs_mut(&1) {
+        traversed.push(vertex.key().clone());
+    }
+
+    assert_eq!(traversed, vec![1, 2, 3, 10, 4, 11, 6, 5, 7,]);
+}
