@@ -98,6 +98,21 @@ fn remove_vertex_test() {
 }
 
 #[test]
+fn remove_vertex_dangling_edges_test() {
+    let mut graph: Graph<i32, i32> = Graph::new();
+    graph.insert(1, 1);
+    graph.insert(2, 2);
+    graph.insert(3, 3);
+
+    graph.insert_edge_unweighted(3, 1).expect("must contain both vertices");
+    
+    graph.remove_vertex(&1);
+
+    assert_eq!(graph.len(), 2);
+    assert_eq!(graph.get_vertex(&3).unwrap().adjancency_list().len(), 0);
+}
+
+#[test]
 #[ignore = "based on Graph::insert_vertex, which is already tested"]
 fn insert_test() {
     unimplemented!()
