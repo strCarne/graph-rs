@@ -1,9 +1,16 @@
+/// Edge is a directed connection between two vertices in a graph that has a weight.
 pub struct Edge<Key>
 where
     Key: Eq,
 {
+
+    /// Identifies the source vertex in the graph
     from: Key,
+
+    /// Identifies the destination vertex in the graph
     to: Key,
+
+    /// Identifies the weight of the edge
     pub weight: i64,
 }
 
