@@ -266,7 +266,7 @@ where
   {{
     "key": {},
     "value": "{}",
-    "adjacent_vertecies_keys": [{}] ,
+    "adjacent_vertecies_keys": [{}],
   }},"#,
                 vertex.key().to_string(),
                 vertex.value.to_string(),
