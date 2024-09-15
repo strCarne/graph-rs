@@ -265,15 +265,12 @@ where
                 }
 
                 ParsingState::Edges => {
-                    if line.is_empty() {
-                        break;
-                    }
-
                     let mut tokens = line.split_whitespace();
 
                     let first = if let Some(f) = tokens.next() {
                         f
                     } else {
+                        println!("SKIPPED");
                         continue;
                     };
 

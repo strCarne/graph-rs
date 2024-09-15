@@ -104,8 +104,10 @@ fn remove_vertex_dangling_edges_test() {
     graph.insert(2, 2);
     graph.insert(3, 3);
 
-    graph.insert_edge_unweighted(3, 1).expect("must contain both vertices");
-    
+    graph
+        .insert_edge_unweighted(3, 1)
+        .expect("must contain both vertices");
+
     graph.remove_vertex(&1);
 
     assert_eq!(graph.len(), 2);
@@ -550,4 +552,103 @@ fn bfs_mut_hard_test() {
     }
 
     assert_eq!(traversed, vec![1, 2, 3, 10, 4, 11, 6, 5, 7,]);
+}
+
+#[test]
+fn from_tgf_test() {
+    let tgf: TrivialGraphFormat = r#"1 A
+2 B
+
+   3   C
+4 D
+5 E
+6       F
+7 G
+
+
+8 H
+9 I
+
+10 J
+11 K
+
+
+
+12 L
+13 M
+14 N
+
+15 O
+16 P
+
+#
+
+1 2
+
+2 3
+2 10
+3 4
+3 11
+4 5
+5   6 
+5 6
+
+6 7
+  7 5
+8 9
+9  1
+10 6
+12 4
+
+
+12 14
+ 13 12
+15           16
+16 14"#
+        .into();
+
+    let graph: Graph<i32, String> = Graph::from_tgf(tgf).expect("tgf is not valid");
+
+    for i in 1..=16 {
+        assert!(graph.contains(&i));
+    }
+
+    let edges = vec![
+        (1, 2),
+        (2, 3),
+        (2, 10),
+        (3, 4),
+        (3, 11),
+        (4, 5),
+        (5, 6),
+        (5, 6),
+        (6, 7),
+        (7, 5),
+        (8, 9),
+        (9, 1),
+        (10, 6),
+        (12, 4),
+        (12, 14),
+        (13, 12),
+        (15, 16),
+        (16, 14),
+    ]
+    .into_iter();
+
+    for edge in edges {
+        graph
+            .get_vertex(&edge.0)
+            .unwrap()
+            .get_edge(&edge.1)
+            .expect("must contain");
+    }
+}
+
+#[test]
+fn from_tgf_empty_test() {
+    let tgf: TrivialGraphFormat = "#".into();
+
+    let graph: Graph<i32, String> = Graph::from_tgf(tgf).expect("tgf is not valid");
+
+    assert_eq!(graph.len(), 0);
 }
