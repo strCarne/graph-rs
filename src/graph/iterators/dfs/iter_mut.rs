@@ -26,7 +26,7 @@ where
                 let vertex = self.graph.get_vertex_mut(key).unwrap() as *mut Vertex<Key, Value>;
                 self.visited.insert(&(*vertex).key());
                 for edge in (*vertex).adjancency_list() {
-                    let key = &edge.to;
+                    let key = &edge.to();
                     if !self.visited.contains(key) {
                         self.stack.push(key);
                     }

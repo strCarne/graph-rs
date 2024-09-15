@@ -232,7 +232,7 @@ where
 
         for vertex in self.vertecies() {
             for edge in vertex.adjancency_list() {
-                buffer += &format!("{} {}\n", edge.from, edge.to);
+                buffer += &format!("{} {}\n", edge.from(), edge.to());
             }
         }
 
@@ -257,7 +257,7 @@ where
         for vertex in self.vertecies() {
             let mut sub_buf = String::new();
             for edge in vertex.adjancency_list() {
-                sub_buf += &format!("{}, ", edge.to.to_string());
+                sub_buf += &format!("{}, ", edge.to().to_string());
             }
             let sub_buf = sub_buf.trim_end_matches(", ");
 

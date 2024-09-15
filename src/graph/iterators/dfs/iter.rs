@@ -30,7 +30,7 @@ where
             self.visited.insert(&vertex.key());
 
             for edge in vertex.adjancency_list() {
-                self.stack.push(&edge.to);
+                self.stack.push(&edge.to());
             }
 
             let result = Some(vertex);

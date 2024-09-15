@@ -2,8 +2,8 @@ pub struct Edge<Key>
 where
     Key: Eq,
 {
-    pub from: Key,
-    pub to: Key,
+    from: Key,
+    to: Key,
     pub weight: i64,
 }
 
@@ -17,6 +17,14 @@ where
 
     pub fn new_unweighted(from: Key, to: Key) -> Self {
         Self::new(from, to, 0)
+    }
+
+    pub fn from(&self) -> &Key {
+        &self.from
+    }
+
+    pub fn to(&self) -> &Key {
+        &self.to
     }
 }
 
