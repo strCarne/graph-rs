@@ -6,6 +6,11 @@ impl<Key, Value> Graph<Key, Value, Undirected>
 where
     Key: Hash + Eq + Clone,
 {
+    /// Inserts a new edge into the undirected graph.
+    /// So edge will be created in both directions.
+    /// Returns the old edge if it existed in the list.
+    /// Returns None if the edge did not exist in the list.
+    /// Returns Err if one of the vertices does not exist.
     pub fn insert_edge(
         &mut self,
         from: Key,
@@ -36,10 +41,16 @@ where
         }
     }
 
+    /// Same as the inser_edge, but new edge's weight is zero
     pub fn insert_edge_unweighted(&mut self, from: Key, to: Key) -> Result<Option<Edge<Key>>, ()> {
         self.insert_edge(from, to, 0)
     }
 
+    /// Removes an edge from the undirected graph.
+    /// So edge will be removed in both directions.
+    /// Returns the removed edge or None if it didn't exist.
+    /// Returns None if the edge did not exist in the list.
+    /// Returns Err if one of the vertices doesn't exist.
     pub fn remove_edge(&mut self, from: &Key, to: &Key) -> Result<Option<Edge<Key>>, ()> {
         if !self.contains(from) || !self.contains(to) {
             return Err(());

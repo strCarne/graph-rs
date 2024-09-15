@@ -2,6 +2,8 @@ use std::{collections::HashSet, hash::Hash};
 
 use crate::{graph::Graph, marker::GraphType, vertex::Vertex};
 
+/// DfsIteratorMut is analog to DfsIterator, but mutable.
+/// See DfsIterator for more information.
 pub struct DfsIteratorMut<'a, Key, Value, Type>
 where
     Key: Hash + Eq + Clone,
