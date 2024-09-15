@@ -25,8 +25,11 @@ where
             let key = self.stack.pop().unwrap();
 
             unsafe {
-                let vertex = self.graph.get_vertex_mut(key).unwrap() as *mut Vertex<Key, Value>;
-                self.visited.insert(&(*vertex).key());
+                let vertex = if let Some(vertex) = self.graph.get_vertex_mut(key) {
+                    vertex as *mut Vertex<Key, Value>
+                } else {
+                    return None;
+                };
                 for edge in (*vertex).adjancency_list() {
                     let key = &edge.to();
                     if !self.visited.contains(key) {

@@ -29,7 +29,12 @@ where
     fn next(&mut self) -> Option<Self::Item> {
         while !self.stack.is_empty() {
             let key = self.stack.pop().unwrap();
-            let vertex = self.graph.get_vertex(key).unwrap();
+            
+            let vertex = if let Some(vertex) = self.graph.get_vertex(key) {
+                vertex
+            } else {
+                return None;
+            };
 
             if self.visited.contains(&vertex.key()) {
                 continue;
