@@ -217,7 +217,9 @@ where
                     } else {
                         return Err(String::from("couldn't parse vertex"));
                     };
-                    graph.insert_edge_unweighted(from, to);
+                    graph
+                        .insert_edge_unweighted(from, to)
+                        .expect("graph must contain src and dst vertecies");
                 }
             }
         }
