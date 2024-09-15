@@ -121,7 +121,22 @@ where
     /// Removes the vertex if it exists in the graph and returns
     /// it, otherwise returns None.
     pub fn remove_vertex(&mut self, key: &Key) -> Option<Vertex<Key, Value>> {
-        self.vertices.remove(key)
+        let result = self.vertices.remove(key);
+
+        // Make sure to delete all dangling edges
+        for vertex in self.vertecies_mut() {
+            let mut remove_queue = vec![];
+            for (i, edge) in vertex.adjancency_list().iter().enumerate() {
+                if edge.to() == key {
+                    remove_queue.push(i);
+                }
+            }
+            while let Some(i) = remove_queue.pop() {
+                vertex.remove_edge_exact(i);
+            }
+        }
+
+        result
     }
 
     /// Returns true if the vertex exists in the graph, otherwise returns false.
