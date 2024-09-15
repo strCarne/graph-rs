@@ -3,7 +3,6 @@ pub struct Edge<Key>
 where
     Key: Eq,
 {
-
     /// Identifies the source vertex in the graph
     from: Key,
 

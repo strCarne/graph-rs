@@ -9,3 +9,6 @@ path = "src/bin/main.rs"
 
 [dependencies]
 clap = "4.5.17"
+
+[dev-dependencies]
+pretty_assertions = "1.4.1"
