@@ -211,4 +211,33 @@ mod tests {
             assert_option_edges!(edge, expected);
         }
     }
+
+    #[test]
+    fn remove_edge_test() {
+        let mut vertex = Vertex {
+            key: 1,
+            value: "one",
+            adj: vec![Edge::new_unweighted(1, 2), Edge::new_unweighted(1, 3)],
+        };
+
+        let edges_dst = vec![1, 2, 3].into_iter();
+
+        let expected_results = vec![
+            None,
+            Some(Edge::new_unweighted(1, 2)),
+            Some(Edge::new_unweighted(1, 3)),
+        ]
+        .into_iter();
+
+        assert_eq!(
+            edges_dst.len(),
+            expected_results.len(),
+            "BAD TEST: number of inputs is not equal to number of results [correct the source data]"
+        );
+
+        for (dst, expected) in edges_dst.zip(expected_results) {
+            let edge = vertex.remove_edge(&dst);
+            assert_option_edges!(edge, expected);
+        }
+    }
 }
