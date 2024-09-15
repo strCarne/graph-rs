@@ -270,11 +270,19 @@ where
                     }
 
                     let mut tokens = line.split_whitespace();
-                    let from: Key = if let Ok(key) = tokens.next().unwrap().parse() {
+
+                    let first = if let Some(f) = tokens.next() {
+                        f
+                    } else {
+                        continue;
+                    };
+
+                    let from: Key = if let Ok(key) = first.parse() {
                         key
                     } else {
                         return Err(String::from("couldn't parse vertex"));
                     };
+
                     let to: Key = if let Ok(key) = tokens.next().unwrap().parse() {
                         key
                     } else {
