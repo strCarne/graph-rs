@@ -120,6 +120,7 @@ where
 
     /// Removes the vertex if it exists in the graph and returns
     /// it, otherwise returns None.
+    /// Also removes all edges connected to the vertex.
     pub fn remove_vertex(&mut self, key: &Key) -> Option<Vertex<Key, Value>> {
         let result = self.vertices.remove(key);
 
