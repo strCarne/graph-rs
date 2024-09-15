@@ -47,3 +47,14 @@ To run tests, run the following command
   cargo test
 ```
 
+## API Reference
+
+1. Build the reference
+```bash
+  cargo doc
+```
+
+2. Open the reference
+```bash
+  cargo doc --open
+```
