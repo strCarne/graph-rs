@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+/// TrivialGraphFormat is a format for graphs.
+/// See https://shorturl.at/qS3MA
 pub struct TrivialGraphFormat(String);
 
 impl From<String> for TrivialGraphFormat {
@@ -20,6 +22,7 @@ impl Into<String> for TrivialGraphFormat {
     }
 }
 
+/// TgfConvertible is a trait that allows converting from and to TrivialGraphFormat.
 pub trait TgfConvertible {
     fn to_tgf(&self) -> TrivialGraphFormat;
 
