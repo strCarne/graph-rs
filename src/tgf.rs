@@ -20,6 +20,14 @@ impl Into<String> for TrivialGraphFormat {
     }
 }
 
+pub trait TgfConvertible {
+    fn to_tgf(&self) -> TrivialGraphFormat;
+
+    fn from_tgf(tgf: TrivialGraphFormat) -> Result<Self, String>
+    where
+        Self: Sized;
+}
+
 impl Display for TrivialGraphFormat {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0)
