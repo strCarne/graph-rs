@@ -1,3 +1,4 @@
+/// GraphType trait is used to constarint the type of graph and acts as a marker.
 pub trait GraphType {
     fn type_name() -> &'static str;
 }
