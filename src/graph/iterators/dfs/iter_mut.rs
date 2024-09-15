@@ -30,6 +30,7 @@ where
                 } else {
                     return None;
                 };
+                self.visited.insert(&(*vertex).key());
                 for edge in (*vertex).adjancency_list() {
                     let key = &edge.to();
                     if !self.visited.contains(key) {
