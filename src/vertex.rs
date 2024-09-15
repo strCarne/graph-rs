@@ -80,6 +80,13 @@ where
         }
         None
     }
+
+    pub fn remove_edge_exact(&mut self, i: usize) -> Option<Edge<Key>> {
+        if i >= self.adj.len() {
+            return None;
+        }
+        Some(self.adj.swap_remove(i))
+    }
 }
 
 #[cfg(test)]
