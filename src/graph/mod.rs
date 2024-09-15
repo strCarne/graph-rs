@@ -10,12 +10,15 @@ use iterators::{
 use crate::{
     edge::Edge,
     marker::{Directed, GraphType},
+    tgf::{TgfConvertible, TrivialGraphFormat},
     vertex::Vertex,
 };
 use std::{
     collections::{HashMap, HashSet},
+    fmt::Display,
     hash::Hash,
     marker::PhantomData,
+    str::FromStr,
 };
 
 pub struct Graph<Key, Value, Type = Directed>
@@ -143,5 +146,96 @@ where
 {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+impl<Key, Value> TgfConvertible for Graph<Key, Value, Directed>
+where
+    Key: Hash + Eq + Clone + Display + FromStr,
+    Value: Display + FromStr,
+{
+    fn from_tgf(tgf: TrivialGraphFormat) -> Result<Self, String> {
+        let mut graph: Self = Graph::new();
+
+        enum ParsingState {
+            Vertecies,
+            Edges,
+        }
+        let mut state = ParsingState::Vertecies;
+
+        let raw: String = tgf.into();
+        for line in raw.lines() {
+            match state {
+                ParsingState::Vertecies => {
+                    if line.starts_with('#') {
+                        state = ParsingState::Edges;
+                    } else {
+                        let mut tokens = line.split_whitespace();
+
+                        let first = if let Some(f) = tokens.next() {
+                            f
+                        } else {
+                            continue;
+                        };
+
+                        let key = if let Ok(key) = first.parse() {
+                            key
+                        } else {
+                            return Err(String::from("couldn't parse vertex"));
+                        };
+
+                        let value = {
+                            let tmp_buf: Vec<&str> = tokens.collect();
+                            if let Ok(value) = tmp_buf.join(" ").parse() {
+                                value
+                            } else {
+                                return Err(String::from("couldn't parse vertex value"));
+                            }
+                        };
+
+                        graph.insert(key, value);
+                    }
+                }
+
+                ParsingState::Edges => {
+                    if line.is_empty() {
+                        break;
+                    }
+
+                    let mut tokens = line.split_whitespace();
+                    let from: Key = if let Ok(key) = tokens.next().unwrap().parse() {
+                        key
+                    } else {
+                        return Err(String::from("couldn't parse vertex"));
+                    };
+                    let to: Key = if let Ok(key) = tokens.next().unwrap().parse() {
+                        key
+                    } else {
+                        return Err(String::from("couldn't parse vertex"));
+                    };
+                    graph.insert_edge_unweighted(from, to);
+                }
+            }
+        }
+
+        Ok(graph)
+    }
+
+    fn to_tgf(&self) -> TrivialGraphFormat {
+        let mut buffer = String::new();
+
+        for vertex in self.vertecies() {
+            buffer += &format!("{} {}\n", vertex.key(), vertex.value);
+        }
+
+        buffer += "#\n";
+
+        for vertex in self.vertecies() {
+            for edge in vertex.adjancency_list() {
+                buffer += &format!("{} {}\n", edge.from, edge.to);
+            }
+        }
+
+        buffer.into()
     }
 }
