@@ -1,5 +1,6 @@
+pub mod iterators;
+
 mod directed;
-mod iterators;
 mod undirected;
 
 use iterators::{
@@ -197,7 +198,6 @@ where
     Key: Hash + Eq + Clone + Display + FromStr,
     Value: Display + FromStr,
 {
-
     /// Deserializes TrivialGraphFormat into Graph
     fn from_tgf(tgf: TrivialGraphFormat) -> Result<Self, String> {
         let mut graph: Self = Graph::new();
@@ -267,7 +267,6 @@ where
 
         Ok(graph)
     }
-
 
     /// Serializes Graph into TrivialGraphFormat
     fn to_tgf(&self) -> TrivialGraphFormat {

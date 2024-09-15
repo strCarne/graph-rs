@@ -3,7 +3,7 @@ use std::{collections::HashSet, hash::Hash};
 use crate::{graph::Graph, marker::GraphType, vertex::Vertex};
 
 /// DfsIterator is a Depth-First Search iterator.
-/// See https://en.wikipedia.org/wiki/Depth-first_search
+/// See <https://en.wikipedia.org/wiki/Depth-first_search>.
 pub struct DfsIterator<'a, Key, Value, Type>
 where
     Key: Hash + Eq + Clone,

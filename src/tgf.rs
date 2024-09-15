@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 /// TrivialGraphFormat is a format for graphs.
-/// See https://shorturl.at/qS3MA
+/// See <https://en.wikipedia.org/wiki/Trivial_Graph_Format#:~:text=Trivial%20Graph%20Format%20(TGF)%20is,used%20because%20of%20its%20simplicity>.
 pub struct TrivialGraphFormat(String);
 
 impl From<String> for TrivialGraphFormat {

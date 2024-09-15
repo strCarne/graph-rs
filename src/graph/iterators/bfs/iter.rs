@@ -6,7 +6,7 @@ use std::{
 use crate::{graph::Graph, marker::GraphType, vertex::Vertex};
 
 /// BfsIterator is a Breadth-First Search iterator.
-/// See https://en.wikipedia.org/wiki/Breadth-first_search
+/// See <https://en.wikipedia.org/wiki/Breadth-first_search>.
 pub struct BfsIterator<'a, Key, Value, Type>
 where
     Key: Hash + Eq + Clone,
