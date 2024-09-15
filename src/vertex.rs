@@ -4,7 +4,7 @@ use crate::edge::Edge;
 /// It contains a key and a value, and a list of edges that connect to it.
 pub struct Vertex<Key, Value>
 where
-    Key: Eq,
+    Key: Eq + Clone,
 {
     /// Key is used to identify the vertex in the graph.
     key: Key,
@@ -18,7 +18,7 @@ where
 
 impl<Key, Value> Vertex<Key, Value>
 where
-    Key: Eq,
+    Key: Eq + Clone,
 {
     pub fn new(key: Key, value: Value) -> Self {
         Vertex {
@@ -31,7 +31,8 @@ where
     /// Inserts a new edge into the vertex's adjacency list.
     /// Returns the old edge if it existed in the list.
     /// Returns None if the edge did not exist in the list.
-    pub fn insert_edge(&mut self, new_edge: Edge<Key>) -> Option<Edge<Key>> {
+    pub fn insert_edge(&mut self, to: Key, weight: i64) -> Option<Edge<Key>> {
+        let new_edge = Edge::new(self.key.clone(), to, weight);
         let result = 'a: {
             for (i, edge) in self.adj.iter().enumerate() {
                 if edge == &new_edge {
@@ -45,6 +46,11 @@ where
         self.adj.push(new_edge);
 
         result
+    }
+
+    /// Same as the inser_edge, but new edge's weight is zero
+    pub fn insert_edge_unweighted(&mut self, to: Key) -> Option<Edge<Key>> {
+        self.insert_edge(to, 0)
     }
 
     pub fn key(&self) -> &Key {
@@ -124,12 +130,7 @@ mod tests {
         ]
         .into_iter();
 
-        let insertion_data = vec![
-            Edge::new_unweighted(1, 2),
-            Edge::new_unweighted(2, 4),
-            Edge::new_unweighted(3, 4),
-        ]
-        .into_iter();
+        let insertion_data = vec![2, 4, 4].into_iter();
 
         let expected_results = vec![
             (
@@ -152,9 +153,9 @@ mod tests {
                 Vertex {
                     key: 3,
                     value: "three",
-                    adj: vec![Edge::new_unweighted(2, 3)],
+                    adj: vec![Edge::new_unweighted(3, 4)],
                 },
-                Some(Edge::new(2, 3, 69)),
+                Some(Edge::new(3, 4, 69)),
             ),
         ]
         .into_iter();
@@ -165,7 +166,7 @@ mod tests {
             .map(|set| (set.0 .0, set.0 .1, set.1 .0, set.1 .1));
 
         for (mut input, insertion, expected, removed) in dataset {
-            let result = input.insert_edge(insertion);
+            let result = input.insert_edge(insertion, 0);
             assert_option_edges!(result, removed);
 
             assert_eq!(input.key, expected.key);

@@ -94,6 +94,10 @@ where
         self.vertices.remove(key)
     }
 
+    pub fn contains(&self, key: &Key) -> bool {
+        self.vertices.contains_key(key)
+    }
+
     pub fn get_edge(&mut self, from: &Key, to: &Key) -> Option<&Edge<Key>> {
         self.get_vertex(from)?.get_edge(to)
     }
