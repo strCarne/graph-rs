@@ -16,9 +16,9 @@ where
         from: Key,
         to: Key,
         weight: i64,
-    ) -> Result<Option<Edge<Key>>, ()> {
+    ) -> Result<Option<Edge<Key>>, &'static str> {
         if !self.contains(&from) || !self.contains(&to) {
-            return Err(());
+            return Err("failure");
         }
 
         let v = self
@@ -29,7 +29,11 @@ where
     }
 
     /// Same as the insert_edge, but new edge's weight is zero
-    pub fn insert_edge_unweighted(&mut self, from: Key, to: Key) -> Result<Option<Edge<Key>>, ()> {
+    pub fn insert_edge_unweighted(
+        &mut self,
+        from: Key,
+        to: Key,
+    ) -> Result<Option<Edge<Key>>, &'static str> {
         self.insert_edge(from, to, 0)
     }
 
@@ -38,9 +42,9 @@ where
     /// Returns the removed edge if it existed.
     /// Returns None if the edge did not exist in the list.
     /// Returns Err if one of the vertices doesn't exist.
-    pub fn remove_edge(&mut self, from: &Key, to: &Key) -> Result<Option<Edge<Key>>, ()> {
+    pub fn remove_edge(&mut self, from: &Key, to: &Key) -> Result<Option<Edge<Key>>, &'static str> {
         if !self.contains(from) || !self.contains(to) {
-            return Err(());
+            return Err("failure");
         }
 
         Ok(self
@@ -65,7 +69,7 @@ mod tests {
 
         assert_eq!(graph.insert_edge_unweighted(1, 2), Ok(None));
         assert_eq!(graph.insert_edge_unweighted(1, 3), Ok(None));
-        assert_eq!(graph.insert_edge_unweighted(1, 4), Err(()));
+        assert_eq!(graph.insert_edge_unweighted(1, 4), Err("failure"));
         assert_eq!(graph.insert_edge_unweighted(2, 3), Ok(None));
         assert_eq!(
             graph.insert_edge_unweighted(1, 3),
@@ -96,7 +100,7 @@ mod tests {
 
         assert_eq!(graph.remove_edge(&2, &4), Ok(None));
         assert_eq!(graph.remove_edge(&1, &3), Ok(Some(Edge::new(1, 3, 0))));
-        assert_eq!(graph.remove_edge(&1, &5), Err(()));
+        assert_eq!(graph.remove_edge(&1, &5), Err("failure"));
         assert_eq!(graph.remove_edge(&2, &3), Ok(Some(Edge::new(2, 3, 0))));
     }
 }

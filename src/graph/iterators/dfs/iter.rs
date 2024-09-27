@@ -27,28 +27,20 @@ where
     type Item = &'a Vertex<Key, Value>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        while !self.stack.is_empty() {
-            let key = self.stack.pop().unwrap();
-            
-            let vertex = if let Some(vertex) = self.graph.get_vertex(key) {
-                vertex
-            } else {
-                return None;
-            };
+        let key = self.stack.pop().unwrap();
 
-            if self.visited.contains(&vertex.key()) {
-                continue;
-            }
-            self.visited.insert(&vertex.key());
+        let vertex = self.graph.get_vertex(key)?;
 
-            for edge in vertex.adjancency_list() {
-                self.stack.push(&edge.to());
-            }
-
-            let result = Some(vertex);
-            return result;
+        if self.visited.contains(&vertex.key()) {
+            return self.next();
         }
 
-        None
+        self.visited.insert(vertex.key());
+
+        for edge in vertex.adjancency_list() {
+            self.stack.push(edge.to());
+        }
+
+        Some(vertex)
     }
 }

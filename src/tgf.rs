@@ -16,9 +16,9 @@ impl<'a> From<&'a str> for TrivialGraphFormat {
     }
 }
 
-impl Into<String> for TrivialGraphFormat {
-    fn into(self) -> String {
-        self.0
+impl From<TrivialGraphFormat> for String {
+    fn from(value: TrivialGraphFormat) -> Self {
+        value.0
     }
 }
 

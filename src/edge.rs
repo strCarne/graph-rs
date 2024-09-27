@@ -42,10 +42,6 @@ where
     fn eq(&self, other: &Self) -> bool {
         self.from == other.from && self.to == other.to
     }
-
-    fn ne(&self, other: &Self) -> bool {
-        self.from != other.from || self.to != other.to
-    }
 }
 
 #[cfg(test)]

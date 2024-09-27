@@ -63,12 +63,7 @@ where
 
     /// Returns the edge if it exists in the adjacency list, otherwise returns None.
     pub fn get_edge(&self, to: &Key) -> Option<&Edge<Key>> {
-        for edge in &self.adj {
-            if *edge.to() == *to {
-                return Some(edge);
-            }
-        }
-        None
+        self.adj.iter().find(|edge| edge.to() == to)
     }
 
     /// Removes the edge if it exists in the adjacency list, otherwise returns None.

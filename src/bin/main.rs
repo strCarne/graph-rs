@@ -3,7 +3,7 @@ use std::fs;
 use clap::{Arg, Command};
 use graph_rs::{graph::Graph, tgf::TgfConvertible};
 
-const INPUT_FILE_NAME_ARG: &'static str = "file_name";
+const INPUT_FILE_NAME_ARG: &str = "file_name";
 
 fn main() -> std::io::Result<()> {
     let matches = Command::new("graph-rs")
@@ -30,7 +30,7 @@ fn main() -> std::io::Result<()> {
         Err(err) => panic!("error: {}", err),
     };
 
-    println!("{}", graph.to_string());
+    println!("{}", graph);
 
     Ok(())
 }

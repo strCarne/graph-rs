@@ -21,26 +21,22 @@ where
 {
     type Item = &'a mut Vertex<Key, Value>;
     fn next(&mut self) -> Option<Self::Item> {
-        while !self.stack.is_empty() {
-            let key = self.stack.pop().unwrap();
+        let key = self.stack.pop().unwrap();
 
-            unsafe {
-                let vertex = if let Some(vertex) = self.graph.get_vertex_mut(key) {
-                    vertex as *mut Vertex<Key, Value>
-                } else {
-                    return None;
-                };
-                self.visited.insert(&(*vertex).key());
-                for edge in (*vertex).adjancency_list() {
-                    let key = &edge.to();
-                    if !self.visited.contains(key) {
-                        self.stack.push(key);
-                    }
+        unsafe {
+            let vertex = if let Some(vertex) = self.graph.get_vertex_mut(key) {
+                vertex as *mut Vertex<Key, Value>
+            } else {
+                return None;
+            };
+            self.visited.insert((*vertex).key());
+            for edge in (*vertex).adjancency_list() {
+                let key = edge.to();
+                if !self.visited.contains(key) {
+                    self.stack.push(key);
                 }
-                return Some(&mut *vertex);
             }
+            Some(&mut *vertex)
         }
-
-        None
     }
 }

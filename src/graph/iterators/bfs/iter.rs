@@ -33,19 +33,15 @@ where
         while !self.queue.is_empty() {
             let key = self.queue.pop_front().unwrap();
 
-            let vertex = if let Some(vertex) = self.graph.get_vertex(key) {
-                vertex
-            } else {
-                return None;
-            };
+            let vertex = self.graph.get_vertex(key)?;
 
             if self.visited.contains(&vertex.key()) {
                 continue;
             }
-            self.visited.insert(&vertex.key());
+            self.visited.insert(vertex.key());
 
             for edge in vertex.adjancency_list() {
-                self.queue.push_back(&edge.to());
+                self.queue.push_back(edge.to());
             }
 
             let result = Some(vertex);
